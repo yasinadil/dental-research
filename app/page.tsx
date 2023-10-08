@@ -253,10 +253,13 @@ export default function Home() {
   return (
     <div className="px-4 pb-10">
       <Form {...form}>
-        <h1 className="text-xl font-medium mt-3 mb-5">Data collection</h1>
+        <h1 className="text-xl font-medium mt-3 mb-3">Data collection</h1>
+        <a className="underline" href="/response">
+          View Raw Responses
+        </a>
         <form
           onSubmit={form.handleSubmit(onSubmit)}
-          className="w-full space-y-6"
+          className="w-full space-y-6 mt-4"
         >
           <FormField
             control={form.control}
