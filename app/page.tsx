@@ -98,7 +98,12 @@ const FormSchema = z.object({
     .enum(["Asthetic", "Speech", "Function", "Combination"])
     .optional(),
   NonReplacementReason: z
-    .enum(["Financial Reason", "Didn't feel need", "No time", "Other reason"])
+    .enum([
+      "Financial Reason",
+      "Didn't feel need",
+      "No time",
+      "Any other reason",
+    ])
     .optional(),
   ProsthesisTypeRequired: z
     .enum(["Fixed prosthesis", "Removable prosthesis"])
