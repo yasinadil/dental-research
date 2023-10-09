@@ -934,7 +934,9 @@ export default function Home() {
               </FormItem>
             )}
           />
-          <Button type="submit">Submit</Button>
+          <Button className="hover:bg-neutral-600" type="submit">
+            Submit
+          </Button>
         </form>
       </Form>
     </div>
