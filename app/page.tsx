@@ -18,97 +18,110 @@ import { toast } from "@/components/ui/use-toast";
 import { useState } from "react";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 
-const FormSchema = z.object({
-  institute: z.enum(["UCD"], {
-    required_error:
-      "You need to select the institution (for some reason, eventhough there is just 1).",
-  }),
-  Gender: z.enum(["Male", "Female"], {
-    required_error: "You need to select the patient gender.",
-  }),
-  Age: z.enum(["15-24", "25-34", "35-44", "45-54", "55-64", "≥65"], {
-    required_error: "You need to select the patient's age group.",
-  }),
-  Education: z.enum(
-    ["Uneducated", "Primary", "Secondary", "Graduate/Postgraduate"],
-    {
-      required_error: "You need to select the patient's education level.",
+const FormSchema = z
+  .object({
+    institute: z.enum(["UCD", "Punjab Dental Hospital"], {
+      required_error: "You need to select the institution.",
+    }),
+    Gender: z.enum(["Male", "Female"], {
+      required_error: "You need to select the patient gender.",
+    }),
+    Age: z.enum(["15-24", "25-34", "35-44", "45-54", "55-64", "≥65"], {
+      required_error: "You need to select the patient's age group.",
+    }),
+    Education: z.enum(
+      ["Uneducated", "Primary", "Secondary", "Graduate/Postgraduate"],
+      {
+        required_error: "You need to select the patient's education level.",
+      }
+    ),
+    Ocupation: z.enum(
+      [
+        "Professional",
+        "Semi-professional",
+        "Cleric",
+        "Skilled worker",
+        "Semi-skilled worker",
+        "Unskilled worker",
+        "Unemployed",
+      ],
+      {
+        required_error:
+          "You need to select the patient's head of family's occupation.",
+      }
+    ),
+    Income: z.enum(
+      [
+        "<35,000",
+        "35,000 - 75,000",
+        "75,001 - 100,000",
+        "100,001 - 125,000",
+        "125,001 - 150,000",
+        "150,001 - 200,000",
+        ">200,000",
+      ],
+      {
+        required_error:
+          "You need to select the patient's family's monthly income.",
+      }
+    ),
+    Visited: z.enum(["Yes", "No"], {
+      required_error: "Did the patient visit before?",
+    }),
+    Reason: z
+      .enum(["Toothache", "Esthetic", "Mastication", "TMJ Disorders"])
+      .optional(),
+    Toothloss: z
+      .enum([
+        "Dental Caries",
+        "Trauma",
+        "Ortho extraction",
+        "Impaction",
+        "Don't  Know",
+      ])
+      .optional(),
+    ProstheticStatus: z
+      .enum([
+        "No prosthesis",
+        "Bridge",
+        "More than 1 bridge",
+        "Partial denture",
+        "Complete denture",
+        "Not recorded",
+      ])
+      .optional(),
+    ProstheticNeed: z
+      .enum(["No need", "1-unit", "Multi-unit", "Combined", "Full-Mouth"])
+      .optional(),
+    ReplacementReason: z
+      .enum(["Asthetic", "Speech", "Function", "Combination"])
+      .optional(),
+    NonReplacementReason: z
+      .enum([
+        "Financial Reason",
+        "Didn't feel need",
+        "No time",
+        "Any other reason",
+      ])
+      .optional(),
+    ProsthesisTypeRequired: z
+      .enum(["Fixed prosthesis", "Removable prosthesis"])
+      .optional(),
+  })
+  .superRefine(({ Visited, Reason }, ctx) => {
+    // Here we add the extra check to assert the field exists when
+    // the "Other" goal is present.
+    if (
+      Visited === "Yes" &&
+      (Reason === undefined || typeof Reason !== "string")
+    ) {
+      ctx.addIssue({
+        code: "custom",
+        message: "Required, please specify reason of visit",
+        path: ["Reason"],
+      });
     }
-  ),
-  Ocupation: z.enum(
-    [
-      "Professional",
-      "Semi-professional",
-      "Cleric",
-      "Skilled worker",
-      "Semi-skilled worker",
-      "Unskilled worker",
-      "Unemployed",
-    ],
-    {
-      required_error:
-        "You need to select the patient's head of family's occupation.",
-    }
-  ),
-  Income: z.enum(
-    [
-      "<35,000",
-      "35,000 - 75,000",
-      "75,001 - 100,000",
-      "100,001 - 125,000",
-      "125,001 - 150,000",
-      "150,001 - 200,000",
-      ">200,000",
-    ],
-    {
-      required_error:
-        "You need to select the patient's family's monthly income.",
-    }
-  ),
-  Visited: z.enum(["Yes", "No"], {
-    required_error:
-      "You need to select if the patient has visited before or not.",
-  }),
-  Reason: z.enum(["Toothache", "Esthetic", "Mastication", "TMJ Disorders"], {
-    required_error: "You need to select the patient's reason of last visit.",
-  }),
-  Toothloss: z
-    .enum([
-      "Dental Caries",
-      "Trauma",
-      "Ortho extraction",
-      "Impaction",
-      "Don't  Know",
-    ])
-    .optional(),
-  ProstheticStatus: z
-    .enum([
-      "No prosthesis",
-      "Bridge",
-      "More than 1 bridge",
-      "Partial denture",
-      "Complete denture",
-      "Not recorded",
-    ])
-    .optional(),
-  ProstheticNeed: z
-    .enum(["No need", "1-unit", "Multi-unit", "Combined", "Full-Mouth"])
-    .optional(),
-  ReplacementReason: z
-    .enum(["Asthetic", "Speech", "Function", "Combination"])
-    .optional(),
-  NonReplacementReason: z
-    .enum([
-      "Financial Reason",
-      "Didn't feel need",
-      "No time",
-      "Any other reason",
-    ])
-    .optional(),
-  ProsthesisTypeRequired: z
-    .enum(["Fixed prosthesis", "Removable prosthesis"])
-    .optional(),
-});
+  });
 
 export default function Home() {
   const [submitted, isSubmitted] = useState(false);
@@ -134,7 +147,11 @@ export default function Home() {
       return "Lower";
     }
   };
+  console.log(form.formState.errors.Reason?.message);
+
   async function onSubmit(data: z.infer<typeof FormSchema>) {
+    console.log(data);
+
     let sociEconmicClass = 0;
     switch (data.Education) {
       case "Uneducated":
@@ -283,6 +300,14 @@ export default function Home() {
                         <RadioGroupItem value="UCD" />
                       </FormControl>
                       <FormLabel className="font-normal">UCD</FormLabel>
+                    </FormItem>
+                    <FormItem className="flex items-center space-x-3 space-y-0">
+                      <FormControl>
+                        <RadioGroupItem value="Punjab Dental Hospital" />
+                      </FormControl>
+                      <FormLabel className="font-normal">
+                        Punjab Dental Hospital
+                      </FormLabel>
                     </FormItem>
                   </RadioGroup>
                 </FormControl>
@@ -939,6 +964,7 @@ export default function Home() {
               </FormItem>
             )}
           />
+
           <Button className="hover:bg-neutral-600" type="submit">
             Submit
           </Button>
