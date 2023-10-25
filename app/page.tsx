@@ -20,7 +20,7 @@ import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 
 const FormSchema = z
   .object({
-    institute: z.enum(["UCD", "Punjab Dental Hospital"], {
+    institute: z.enum(["UCD", "Punjab Dental Hospital", "FMH"], {
       required_error: "You need to select the institution.",
     }),
     Gender: z.enum(["Male", "Female"], {
@@ -308,6 +308,12 @@ export default function Home() {
                       <FormLabel className="font-normal">
                         Punjab Dental Hospital
                       </FormLabel>
+                    </FormItem>
+                    <FormItem className="flex items-center space-x-3 space-y-0">
+                      <FormControl>
+                        <RadioGroupItem value="FMH" />
+                      </FormControl>
+                      <FormLabel className="font-normal">FMH</FormLabel>
                     </FormItem>
                   </RadioGroup>
                 </FormControl>
