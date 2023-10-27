@@ -535,12 +535,10 @@ export async function GET() {
         const age = item.age;
 
         if (!patients_age_wise[age]) {
-          patients_age_wise[age] = {
-            total: 0,
-          };
+          patients_age_wise[age] = 0;
         }
 
-        patients_age_wise[age].total++;
+        patients_age_wise[age]++;
       });
 
     let { data: education_wise } = await supbaseAdmin
@@ -553,12 +551,10 @@ export async function GET() {
         const age = item.education;
 
         if (!patients_education_wise[age]) {
-          patients_education_wise[age] = {
-            total: 0,
-          };
+          patients_education_wise[age] = 0;
         }
 
-        patients_education_wise[age].total++;
+        patients_education_wise[age]++;
       });
 
     const response = {
