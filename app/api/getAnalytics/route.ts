@@ -337,6 +337,230 @@ export async function GET() {
         association_of_prosthetic_need_for_age[prosthetic_need].counts[age]++;
       });
 
+    let { data: prosthetic_need_for_males } = await supbaseAdmin
+      .from("responses")
+      .select("prosthetic_need, gender")
+      .eq("gender", "Male");
+    const association_of_prosthetic_needs_with_males: any = {};
+    if (prosthetic_need_for_males)
+      prosthetic_need_for_males.forEach((item: any) => {
+        const gender = item.gender;
+        const prostheticNeed = item.prosthetic_need;
+
+        if (!association_of_prosthetic_needs_with_males[gender]) {
+          association_of_prosthetic_needs_with_males[gender] = {
+            total: 0,
+            counts: {},
+          };
+        }
+        if (
+          !association_of_prosthetic_needs_with_males[gender].counts[
+            prostheticNeed
+          ]
+        ) {
+          association_of_prosthetic_needs_with_males[gender].counts[
+            prostheticNeed
+          ] = 0;
+        }
+
+        association_of_prosthetic_needs_with_males[gender].total++;
+        association_of_prosthetic_needs_with_males[gender].counts[
+          prostheticNeed
+        ]++;
+      });
+
+    let { data: prosthetic_need_for_females } = await supbaseAdmin
+      .from("responses")
+      .select("prosthetic_need, gender")
+      .eq("gender", "Female");
+    const association_of_prosthetic_needs_with_females: any = {};
+    if (prosthetic_need_for_females)
+      prosthetic_need_for_females.forEach((item: any) => {
+        const gender = item.gender;
+        const prostheticNeed = item.prosthetic_need;
+
+        if (!association_of_prosthetic_needs_with_females[gender]) {
+          association_of_prosthetic_needs_with_females[gender] = {
+            total: 0,
+            counts: {},
+          };
+        }
+        if (
+          !association_of_prosthetic_needs_with_females[gender].counts[
+            prostheticNeed
+          ]
+        ) {
+          association_of_prosthetic_needs_with_females[gender].counts[
+            prostheticNeed
+          ] = 0;
+        }
+
+        association_of_prosthetic_needs_with_females[gender].total++;
+        association_of_prosthetic_needs_with_females[gender].counts[
+          prostheticNeed
+        ]++;
+      });
+
+    let { data: prosthetic_status_for_males } = await supbaseAdmin
+      .from("responses")
+      .select("prosthetic_status, gender")
+      .eq("gender", "Male");
+    const association_of_prosthetic_status_with_males: any = {};
+    if (prosthetic_status_for_males)
+      prosthetic_status_for_males.forEach((item: any) => {
+        const gender = item.gender;
+        const prostheticStatus = item.prosthetic_status;
+
+        if (!association_of_prosthetic_status_with_males[gender]) {
+          association_of_prosthetic_status_with_males[gender] = {
+            total: 0,
+            counts: {},
+          };
+        }
+        if (
+          !association_of_prosthetic_status_with_males[gender].counts[
+            prostheticStatus
+          ]
+        ) {
+          association_of_prosthetic_status_with_males[gender].counts[
+            prostheticStatus
+          ] = 0;
+        }
+
+        association_of_prosthetic_status_with_males[gender].total++;
+        association_of_prosthetic_status_with_males[gender].counts[
+          prostheticStatus
+        ]++;
+      });
+
+    let { data: prosthetic_status_for_females } = await supbaseAdmin
+      .from("responses")
+      .select("prosthetic_status, gender")
+      .eq("gender", "Female");
+    const association_of_prosthetic_status_with_females: any = {};
+    if (prosthetic_status_for_females)
+      prosthetic_status_for_females.forEach((item: any) => {
+        const gender = item.gender;
+        const prostheticStatus = item.prosthetic_status;
+
+        if (!association_of_prosthetic_status_with_females[gender]) {
+          association_of_prosthetic_status_with_females[gender] = {
+            total: 0,
+            counts: {},
+          };
+        }
+        if (
+          !association_of_prosthetic_status_with_females[gender].counts[
+            prostheticStatus
+          ]
+        ) {
+          association_of_prosthetic_status_with_females[gender].counts[
+            prostheticStatus
+          ] = 0;
+        }
+
+        association_of_prosthetic_status_with_females[gender].total++;
+        association_of_prosthetic_status_with_females[gender].counts[
+          prostheticStatus
+        ]++;
+      });
+
+    let { data: prosthetic_status_for_education } = await supbaseAdmin
+      .from("responses")
+      .select("prosthetic_status, education");
+    const association_of_prosthetic_status_with_education: any = {};
+    if (prosthetic_status_for_education)
+      prosthetic_status_for_education.forEach((item: any) => {
+        const education = item.education;
+        const prostheticStatus = item.prosthetic_status;
+
+        if (!association_of_prosthetic_status_with_education[education]) {
+          association_of_prosthetic_status_with_education[education] = {
+            total: 0,
+            counts: {},
+          };
+        }
+        if (
+          !association_of_prosthetic_status_with_education[education].counts[
+            prostheticStatus
+          ]
+        ) {
+          association_of_prosthetic_status_with_education[education].counts[
+            prostheticStatus
+          ] = 0;
+        }
+
+        association_of_prosthetic_status_with_education[education].total++;
+        association_of_prosthetic_status_with_education[education].counts[
+          prostheticStatus
+        ]++;
+      });
+
+    let { data: prosthetic_need_for_education } = await supbaseAdmin
+      .from("responses")
+      .select("prosthetic_need, education");
+    const association_of_prosthetic_need_with_education: any = {};
+    if (prosthetic_need_for_education)
+      prosthetic_need_for_education.forEach((item: any) => {
+        const education = item.education;
+        const prostheticNeed = item.prosthetic_need;
+
+        if (!association_of_prosthetic_need_with_education[education]) {
+          association_of_prosthetic_need_with_education[education] = {
+            total: 0,
+            counts: {},
+          };
+        }
+        if (
+          !association_of_prosthetic_need_with_education[education].counts[
+            prostheticNeed
+          ]
+        ) {
+          association_of_prosthetic_need_with_education[education].counts[
+            prostheticNeed
+          ] = 0;
+        }
+
+        association_of_prosthetic_need_with_education[education].total++;
+        association_of_prosthetic_need_with_education[education].counts[
+          prostheticNeed
+        ]++;
+      });
+
+    let { data: age_wise } = await supbaseAdmin.from("responses").select("age");
+    const patients_age_wise: any = {};
+
+    if (age_wise)
+      age_wise.forEach((item: any) => {
+        const age = item.age;
+
+        if (!patients_age_wise[age]) {
+          patients_age_wise[age] = {
+            total: 0,
+          };
+        }
+
+        patients_age_wise[age].total++;
+      });
+
+    let { data: education_wise } = await supbaseAdmin
+      .from("responses")
+      .select("education");
+    const patients_education_wise: any = {};
+
+    if (education_wise)
+      education_wise.forEach((item: any) => {
+        const age = item.education;
+
+        if (!patients_education_wise[age]) {
+          patients_education_wise[age] = {
+            total: 0,
+          };
+        }
+
+        patients_education_wise[age].total++;
+      });
+
     const response = {
       total: total?.length,
       males: males?.length,
@@ -360,6 +584,20 @@ export async function GET() {
       distribution_of_total_to_class: distribution_of_total_to_class,
       association_of_prosthetic_need_for_age:
         association_of_prosthetic_need_for_age,
+      association_of_prosthetic_needs_with_males:
+        association_of_prosthetic_needs_with_males,
+      association_of_prosthetic_needs_with_females:
+        association_of_prosthetic_needs_with_females,
+      association_of_prosthetic_status_with_males:
+        association_of_prosthetic_status_with_males,
+      association_of_prosthetic_status_with_females:
+        association_of_prosthetic_status_with_females,
+      association_of_prosthetic_status_with_education:
+        association_of_prosthetic_status_with_education,
+      association_of_prosthetic_need_with_education:
+        association_of_prosthetic_need_with_education,
+      patients_age_wise: patients_age_wise,
+      patients_education_wise: patients_education_wise,
     };
 
     return NextResponse.json({ response }, { status: 200 });
