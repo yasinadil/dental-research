@@ -557,6 +557,29 @@ export async function GET() {
         patients_education_wise[age]++;
       });
 
+    let { data: institute_with_gender } = await supbaseAdmin
+      .from("responses")
+      .select("institute, gender");
+    const association_of_institute_with_gender: any = {};
+    if (institute_with_gender)
+      institute_with_gender.forEach((item: any) => {
+        const institute = item.institute;
+        const gender = item.gender;
+
+        if (!association_of_institute_with_gender[institute]) {
+          association_of_institute_with_gender[institute] = {
+            total: 0,
+            counts: {},
+          };
+        }
+        if (!association_of_institute_with_gender[institute].counts[gender]) {
+          association_of_institute_with_gender[institute].counts[gender] = 0;
+        }
+
+        association_of_institute_with_gender[institute].total++;
+        association_of_institute_with_gender[institute].counts[gender]++;
+      });
+
     const response = {
       total: total?.length,
       males: males?.length,
@@ -594,6 +617,8 @@ export async function GET() {
         association_of_prosthetic_need_with_education,
       patients_age_wise: patients_age_wise,
       patients_education_wise: patients_education_wise,
+      association_of_institute_with_gender:
+        association_of_institute_with_gender,
     };
 
     return NextResponse.json({ response }, { status: 200 });
