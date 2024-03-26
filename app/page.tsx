@@ -150,6 +150,8 @@ export default function Home() {
   console.log(form.formState.errors.Reason?.message);
 
   async function onSubmit(data: z.infer<typeof FormSchema>) {
+    toast.error("Form is no longer accepting entries");
+    return;
     console.log(data);
 
     let sociEconmicClass = 0;
