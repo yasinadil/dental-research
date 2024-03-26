@@ -2,6 +2,8 @@ This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next
 
 ## Getting Started
 
+Form uses react-hook-form, and zod for form validation and supabase to store form entries.
+
 First, run the development server:
 
 ```bash
